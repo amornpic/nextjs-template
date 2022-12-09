@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -20,6 +22,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
+  const queryClient = new QueryClient()
+
   return (
     <>
       <Head>
@@ -28,7 +32,12 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <RecoilRoot>
-        <ThemeProvider>{getLayout(<Component {...pageProps} />)}</ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+          <ReactQueryDevtools initialIsOpen />
+        </QueryClientProvider>
       </RecoilRoot>
     </>
   )
