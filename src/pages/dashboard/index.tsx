@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import DashboardLayout from '../../components/layouts/Dashboard/Dashboard'
 import { NextPageWithLayout } from '../_app'
 
@@ -14,3 +15,5 @@ export default Dashboard
 Dashboard.getLayout = (page) => {
   return <DashboardLayout>{page}</DashboardLayout>
 }
+
+export const getServerSideProps = withPageAuthRequired()

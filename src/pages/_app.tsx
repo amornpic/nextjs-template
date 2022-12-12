@@ -1,3 +1,4 @@
+import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { NextPage } from 'next'
@@ -32,12 +33,14 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </ThemeProvider>
-          <ReactQueryDevtools initialIsOpen />
-        </QueryClientProvider>
+        <UserProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen />
+          </QueryClientProvider>
+        </UserProvider>
       </RecoilRoot>
     </>
   )
